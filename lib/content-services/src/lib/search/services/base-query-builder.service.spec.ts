@@ -178,6 +178,20 @@ describe('BaseQueryBuilderService', () => {
             expect(service.parsedQuery).toBe('((cm:name:"hello*") AND (cm:name:"world*"))');
         });
 
+        it('should ignore leading, trailing, and repeated whitespace between terms', () => {
+            configureAppConfig(true);
+            service.searchMode = 'regular';
+            service.userQuery = '  hello   world  ';
+            expect(service.parsedQuery).toBe('((cm:name:"hello*") AND (cm:name:"world*"))');
+        });
+
+        it('should not create a match-all query for a whitespace-only regular search', () => {
+            service.searchMode = 'regular';
+            service.userQuery = '   ';
+            expect(service.parsedQuery).toBe('');
+            expect(service.buildQuery()).toBeNull();
+        });
+
         it('should keep explicit operators as separators between terms', () => {
             configureAppConfig(true);
             service.searchMode = 'regular';

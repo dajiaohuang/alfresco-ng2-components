@@ -706,7 +706,7 @@ export abstract class BaseQueryBuilderService {
     }
 
     private setParsedQuery() {
-        if (!this.userQuery) {
+        if (!this.userQuery || (this.searchMode === 'regular' && !this.userQuery.trim())) {
             this._parsedQuery = '';
             this.filterRawParams['parsedQuery'] = '';
             return;
@@ -714,7 +714,7 @@ export abstract class BaseQueryBuilderService {
         if (this.searchMode === 'formula') {
             this._parsedQuery = this.userQuery;
         } else {
-            const words = this.userQuery.split(/\s+/);
+            const words = this.userQuery.trim().split(/\s+/);
             if (words.length > 1) {
                 const separator = words.some(this.isOperator) ? ' ' : ' AND ';
                 this._parsedQuery = '(' + words.map((term) => (this.isOperator(term) ? term : this.parseTermByFields(term))).join(separator) + ')';
