@@ -24,7 +24,7 @@ This page covers the basics of creating a search page using components from this
 
 Most basic search requires only three components to be included in the template.
 
-Search is executed on *Enter* key press and the results are shown below.
+Search is executed on *Enter* key press and the results are shown below. In regular search mode, leading and trailing whitespace is ignored; whitespace-only input does not produce a query.
 
 ![Simple Search](../docassets/images/simple-search-example.png)
 
